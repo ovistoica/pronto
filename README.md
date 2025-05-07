@@ -1,10 +1,9 @@
 # pronto
 
-[![Coverage Status](https://coveralls.io/repos/github/AppsFlyer/pronto/badge.svg?branch=master)](https://coveralls.io/github/AppsFlyer/pronto?branch=master)
-[![Clojars Project](https://img.shields.io/clojars/v/com.appsflyer/pronto.svg)](https://clojars.org/com.appsflyer/pronto)
-[![cljdoc badge](https://cljdoc.org/badge/com.appsflyer/pronto)](https://cljdoc.org/d/com.appsflyer/pronto/CURRENT)
+[![Clojars Project](https://img.shields.io/clojars/v/com.shipclojure/pronto.svg)](https://clojars.org/com.shipclojure/pronto)
+[![cljdoc badge](https://cljdoc.org/badge/com.shipclojure/pronto)](https://cljdoc.org/d/com.shipclojure/pronto/CURRENT)
 
-A library for using [Protocol Buffers](https://github.com/protocolbuffers/protobuf) 3 in Clojure.
+A library for using [Protocol Buffers](https://github.com/protocolbuffers/protobuf) 4 in Clojure.
 
 ## Rationale
 
@@ -22,7 +21,9 @@ ignored completely.
 ## Installation
 Add a dependency to your `project.clj` file:
 
-           [com.appsflyer/pronto "4.0.0"]
+```clojure
+[com.shipclojure/pronto "4.0.0"]
+```
 
 Note that the library comes with no Java protobuf dependencies of its own and they are expected to be provided by consumers of the library, with a minimal version of `4.0.0`. This version has been tested with Protobuf version `4.30.2`.
 
@@ -43,7 +44,7 @@ Every `proto-map`
 
 ## Quick example
 
-Let's use this [example](https://github.com/AppsFlyer/pronto/blob/master/resources/proto/people.proto):
+Let's use this [example](https://github.com/shipclojure/pronto/blob/master/resources/proto/people.proto):
 
 ```clj
 (import 'protogen.generated.People$Person)
