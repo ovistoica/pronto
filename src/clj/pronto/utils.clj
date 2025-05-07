@@ -2,12 +2,12 @@
   (:require [clojure.string :as s]
             [pronto.protos :refer [global-ns]])
   (:import
-   [pronto ProtoMap ProtoMapper] 
+   [pronto ProtoMap ProtoMapper]
    [com.google.protobuf
     Descriptors$FieldDescriptor
     Descriptors$GenericDescriptor
     Descriptors$FieldDescriptor$Type
-    GeneratedMessageV3]))
+    Message]))
 
 
 (defn javaify [s] (s/replace s "-" "_"))

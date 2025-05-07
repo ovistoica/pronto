@@ -1,7 +1,6 @@
 package pronto;
 
 import clojure.lang.Keyword;
-import com.google.protobuf.GeneratedMessageV3;
 import com.google.protobuf.Message;
 
 /**
