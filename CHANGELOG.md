@@ -10,6 +10,7 @@
 #### Added
 * Full support for Protobuf 4.x (tested with version 4.30.2)
 * Better handling of optional fields in Protobuf 4.x
+* Updated CI workflow to use Ubuntu 22.04 (from 20.04 which is retiring)
 
 ###  VERSION [3.0.0]:
 #### Changed
