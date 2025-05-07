@@ -1,9 +1,8 @@
 (def protobuf-version "4.30.2")
 
-
-(defproject com.appsflyer/pronto "4.0.0"
+(defproject com.shipclojure/pronto "4.0.0"
   :description "clojure support for protocol buffers"
-  :url "https://github.com/AppsFlyer/pronto"
+  :url "https://github.com/shipclojure/pronto"
   :license {:name "Eclipse Public License"
             :url  "http://www.eclipse.org/legal/epl-v10.html"}
   :source-paths ["src/clj"]
