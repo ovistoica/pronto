@@ -1,14 +1,10 @@
 (ns pronto.utils
-  (:require [clojure.string :as s]
-            [pronto.protos :refer [global-ns]])
+  (:require
+   [clojure.string :as s]
+   [pronto.protos :refer [global-ns]])
   (:import
-   [pronto ProtoMap ProtoMapper]
-   [com.google.protobuf
-    Descriptors$FieldDescriptor
-    Descriptors$GenericDescriptor
-    Descriptors$FieldDescriptor$Type
-    Message]))
-
+   (com.google.protobuf Descriptors$FieldDescriptor Descriptors$FieldDescriptor$Type Descriptors$GenericDescriptor Message)
+   (pronto ProtoMap ProtoMapper)))
 
 (defn javaify [s] (s/replace s "-" "_"))
 
@@ -29,17 +25,14 @@
 (defn class->abstract-persistent-map-class-name [^Class clazz]
   (symbol (str (sanitized-class-name clazz) "AbstractPersistentMap")))
 
-
 (defn class->transient-class-name [^Class clazz]
   (symbol (str 'transient_ (sanitized-class-name clazz))))
-
 
 (defn ->kebab-case
   "Converts `s`, assumed to be in snake_case, to kebab-case"
   [^String s]
   (when s
     (s/lower-case (.replace s \_ \-))))
-
 
 (defn with-type-hint [sym ^Class clazz]
   (with-meta sym {:tag (symbol (.getName clazz))}))
@@ -94,17 +87,13 @@
   (try
     (.hasPresence fd)
     (catch Throwable _
-      ;; Then try the hasOptionalKeyword() method
-      (try
-        (.hasOptionalKeyword fd)
-        (catch Throwable _
-          ;; If both methods fails, fall back to our own detection logic for older versions
-          (and (not (.getContainingOneof fd))
-               (not (.isRepeated fd))
-               (not (.isMapField fd))
-               ;; Message type fields or enum fields can have presence
-               (or (message? fd)
-                   (enum? fd))))))))
+      ;; If hasPresence() fails, fall back to our own detection logic for older versions
+      (and (not (.getContainingOneof fd))
+           (not (.isRepeated fd))
+           (not (.isMapField fd))
+           ;; Message type fields or enum fields can have presence
+           (or (message? fd)
+               (enum? fd))))))
 
 (defn static-call [^Class class method-name]
   (symbol (str (.getName class) "/" method-name)))
@@ -121,8 +110,6 @@
   ([clazz field-name expected-type value cause]
   ;; return as code so this frame isn't included in the stack trace
    `(ex-info "Invalid type" ~(type-error-info clazz field-name expected-type value) ~cause)))
-
-
 
 (defmacro with-ns [new-ns & body]
   (let [orig-ns          *ns*
@@ -156,7 +143,6 @@
          #_(finally)
          (in-ns (quote ~(symbol orig-ns-name)))))))
 
-
 (defn- split' [f coll]
   (loop [[x & xs :as c] coll
          res            []]
@@ -171,13 +157,11 @@
             b
             (conj res a)))))))
 
-
 (def leaf-val :val)
 
 (defn leaf [x] (with-meta {:val x} {::leaf? true}))
 
 (def leaf? (comp boolean ::leaf? meta))
-
 
 (defn kv-forest [kvs]
   (loop [[kv-partition & ps] (partition-by ffirst kvs)
@@ -205,7 +189,6 @@
                    (kv-forest g)))
                follower-kvs)]))))))
 
-
 (defn- flatten-forest* [forest]
   (if-not (seq forest)
     []
@@ -218,26 +201,21 @@
             [(cons k k') v'])
           (flatten-forest* [v]))))))
 
-
 (defn flatten-forest [forest]
   (partition 2 (apply concat (flatten-forest* forest))))
-
 
 (defn safe-resolve [x]
   (try
     (resolve x)
     (catch Exception _)))
 
-
 (defn proto-map? [m]
   (instance? ProtoMap m))
-
 
 (defn proto-map->proto
   "Returns the protobuf instance associated with the proto-map"
   [^ProtoMap m]
   (.pmap_getProto m))
-
 
 (defn mapper? [m]
   (instance? ProtoMapper m))
