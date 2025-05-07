@@ -4,7 +4,7 @@
   <groupId>com.appsflyer</groupId>
   <artifactId>pronto</artifactId>
   <packaging>jar</packaging>
-  <version>4.0.0-SNAPSHOT</version>
+  <version>4.0.0</version>
   <name>pronto</name>
   <description>clojure support for protocol buffers</description>
   <url>https://github.com/AppsFlyer/pronto</url>
@@ -18,7 +18,7 @@
     <url>https://github.com/ovistoica/pronto</url>
     <connection>scm:git:git://github.com/ovistoica/pronto.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/ovistoica/pronto.git</developerConnection>
-    <tag>85499fa0de98e756a858d60a3d9a67b9bc723e07</tag>
+    <tag>39ebb90d381b07cdd26df71dcb55c8a5edb2b2f9</tag>
   </scm>
   <build>
     <sourceDirectory>src/clj</sourceDirectory>
