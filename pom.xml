@@ -18,7 +18,7 @@
     <url>https://github.com/shipclojure/pronto</url>
     <connection>scm:git:git://github.com/shipclojure/pronto.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/shipclojure/pronto.git</developerConnection>
-    <tag>8e7f608af0e09e36a54c4927bbcc4f59e8cf2e8c</tag>
+    <tag>ecbb25274550160c04239dc4accfe21081a683d9</tag>
   </scm>
   <build>
     <sourceDirectory>src/clj</sourceDirectory>
@@ -115,7 +115,7 @@
     <dependency>
       <groupId>com.clojure-goes-fast</groupId>
       <artifactId>clj-java-decompiler</artifactId>
-      <version>0.3.0</version>
+      <version>0.3.7</version>
       <exclusions>
         <exclusion>
           <artifactId>procyon-compilertools</artifactId>
