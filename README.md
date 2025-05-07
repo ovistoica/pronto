@@ -22,9 +22,13 @@ ignored completely.
 ## Installation
 Add a dependency to your `project.clj` file:
 
-           [com.appsflyer/pronto "3.0.0"]
+           [com.appsflyer/pronto "4.0.0"]
 
-Note that the library comes with no Java protobuf dependencies of its own and they are expected to be provided by consumers of the library, with a minimal version of `3.15.0`.
+Note that the library comes with no Java protobuf dependencies of its own and they are expected to be provided by consumers of the library, with a minimal version of `4.0.0`. This version has been tested with Protobuf version `4.30.2`.
+
+> ⚠️ **Breaking Change**: Pronto 4.x only supports Protobuf 4.x. If you need to use Protobuf 3.x, please use Pronto 3.x.
+
+> ⚠️ **Important Note on Optional Fields**: Pronto 4.x addresses the issue with the `hasOptionalKeyword` method by providing fallback mechanisms for implementations where this method might not be available. When working with optional fields, the library will attempt to use native Protobuf 4.x functionality first and fall back to compatibility methods if needed.
 
 ## How does it work?
 

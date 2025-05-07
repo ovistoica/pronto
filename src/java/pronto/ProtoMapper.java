@@ -3,20 +3,20 @@ package pronto;
 import clojure.lang.IPersistentSet;
 import clojure.lang.IPersistentMap;
 
-import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.Message;
 
 public interface ProtoMapper {
     String getNamespace();
 
     IPersistentSet getClasses();
 
-    ProtoMap fromBytes(Class<? extends GeneratedMessageV3> clazz, byte[] bytes);
+    ProtoMap fromBytes(Class<? extends Message> clazz, byte[] bytes);
 
-    ProtoMap fromProto(Class<? extends GeneratedMessageV3> clazz, GeneratedMessageV3 proto);
+    ProtoMap fromProto(Class<? extends Message> clazz, Message proto);
 
-    ProtoMap getProto(Class<? extends GeneratedMessageV3> clazz);
+    ProtoMap getProto(Class<? extends Message> clazz);
 
-    ProtoMap getTransient(Class<? extends GeneratedMessageV3> clazz);
+    ProtoMap getTransient(Class<? extends Message> clazz);
 
     IPersistentMap getContext();
 }

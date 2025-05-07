@@ -221,11 +221,21 @@
     fields k true
     (fn [field]
       (let [^Descriptors$FieldDescriptor fd (:fd field)]
+        ;; First, check if this field supports presence (struct, message, optional, etc.)
         (if (or (u/struct? fd) (u/optional? fd))
+          ;; Use the standard 'has' method for the field
           (let [has-method (symbol (str ".has" (u/field->camel-case (:fd field))))]
             `(~has-method ~o))
-          `(throw (IllegalArgumentException. (str "field " ~k " cannot be checked for field existence"))))))))
-
+          ;; If we don't recognize this field type as supporting presence,
+          ;; try a more dynamic approach - especially for enum fields marked as optional
+          `(try
+             ;; Try calling the has method anyway - it might exist for this field
+             ;; even if our static analysis didn't detect it as optional
+             (~(symbol (str ".has" (u/field->camel-case (:fd field)))) ~o)
+             (catch Throwable e#
+               ;; If it fails, then this field truly doesn't support presence checks
+               (throw (IllegalArgumentException.
+                       (str "field " ~k " cannot be checked for field existence"))))))))))
 
 (defn enum-case->kebab-case [enum-case-name]
   (keyword (s/lower-case (u/->kebab-case enum-case-name))))
@@ -680,5 +690,5 @@
              (fn [dep-class]
                `(. ~this
                    ~(builder-interface-get-proto-method-name dep-class))))))
-       
+
        (def ~name (new ~type-name)))))

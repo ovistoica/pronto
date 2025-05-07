@@ -4,7 +4,7 @@
             [pronto.emitters :as e]
             [clojure.walk :as walk])
   (:import [pronto ProtoMap ProtoMapper]
-           [com.google.protobuf GeneratedMessageV3$Builder]))
+           [com.google.protobuf Message$Builder]))
 
 
 (def ^:private ^:dynamic *hints*)
@@ -143,7 +143,7 @@
                        ~new-submap ~(transform-in submap new-type-hint ctx (u/flatten-forest v))]
                    ~(do-assoc ctx (when use-type-hint? type-hint) m2 builder k new-submap))))))
        ~(if use-type-hint?
-          `(.fromBuilder ~m2 ~(u/with-type-hint builder GeneratedMessageV3$Builder))
+          `(.fromBuilder ~m2 ~(u/with-type-hint builder Message$Builder))
           `(persistent! ~m2)))))
 
 

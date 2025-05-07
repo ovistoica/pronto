@@ -79,6 +79,9 @@
   (= (.getType fd)
      Descriptors$FieldDescriptor$Type/MESSAGE))
 
+(defn enum? [^Descriptors$FieldDescriptor fd]
+  (= (.getType fd)
+     Descriptors$FieldDescriptor$Type/ENUM))
 
 (defn struct? [^Descriptors$FieldDescriptor fd]
   (and (message? fd)
@@ -86,15 +89,25 @@
        (not (.isRepeated fd))))
 
 (defn optional? [^Descriptors$FieldDescriptor fd]
-  (.hasOptionalKeyword fd))
-
-(defn enum? [^Descriptors$FieldDescriptor fd]
-  (= (.getType fd)
-     Descriptors$FieldDescriptor$Type/ENUM))
+  ;; In Protobuf 4.x, fields marked 'optional' have presence semantics
+  ;; First, try to use hasPresence() method which is the recommended way in Protobuf 4.x
+  (try
+    (.hasPresence fd)
+    (catch Throwable _
+      ;; Then try the hasOptionalKeyword() method
+      (try
+        (.hasOptionalKeyword fd)
+        (catch Throwable _
+          ;; If both methods fails, fall back to our own detection logic for older versions
+          (and (not (.getContainingOneof fd))
+               (not (.isRepeated fd))
+               (not (.isMapField fd))
+               ;; Message type fields or enum fields can have presence
+               (or (message? fd)
+                   (enum? fd))))))))
 
 (defn static-call [^Class class method-name]
   (symbol (str (.getName class) "/" method-name)))
-
 
 (defn type-error-info [clazz field-name expected-type value]
   {:class         clazz
@@ -130,7 +143,7 @@
                  ;; No point to import POJO classes, and this can also
                  ;; lead to conflicts if 2 namespaces import 2 classes
                  ;; with the same name but different packages.
-                 :when (not= (.getSuperclass clazz) GeneratedMessageV3)
+                 :when (not (.isAssignableFrom Message clazz))
                  ;; don't import generated classes created by the lib, as this might
                  ;; lead to collision between different mappers when importing
                  ;; these classes into the global ns

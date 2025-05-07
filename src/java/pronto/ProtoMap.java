@@ -2,6 +2,7 @@ package pronto;
 
 import clojure.lang.Keyword;
 import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.Message;
 
 /**
  * Base functionality implemented by any generated proto-map.
@@ -10,7 +11,7 @@ import com.google.protobuf.GeneratedMessageV3;
  * a conflict with the `get<Field>` and `has<Field>` methods that are generated as part of
  * the <Object>OrBuilder interfaces.
  **/
-public interface ProtoMap<T extends GeneratedMessageV3> {
+public interface ProtoMap<T extends Message> {
     boolean isMutable();
 
     boolean pmap_hasField(Keyword key);
@@ -21,13 +22,13 @@ public interface ProtoMap<T extends GeneratedMessageV3> {
 
     Keyword whichOneOf(Keyword key);
 
-    GeneratedMessageV3.Builder pmap_getBuilder();
+    Message.Builder pmap_getBuilder();
 
-    ProtoMap<T> copy(GeneratedMessageV3.Builder builder);
+    ProtoMap<T> copy(Message.Builder builder);
 
     ProtoMap<T> remap(ProtoMapper mapper);
 
     ProtoMap<?> empty(Keyword keyword);
 
-    ProtoMap<?> fromBuilder(GeneratedMessageV3.Builder builder);
+    ProtoMap<?> fromBuilder(Message.Builder builder);
 }

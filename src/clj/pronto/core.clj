@@ -9,7 +9,7 @@
             [potemkin]
             [clojure.string :as s])
   (:import [pronto ProtoMap ProtoMapper]
-           [com.google.protobuf Message GeneratedMessageV3 ByteString]))
+           [com.google.protobuf Message Message$Builder ByteString]))
 
 (def ^:private default-values #{0 0.0 nil "" false {} [] (byte-array 0) ByteString/EMPTY})
 (def remove-default-values-xf
@@ -139,7 +139,7 @@
 (defn proto-map->bytes
   "Serializes `proto-map` to protobuf binary"
   [proto-map]
-  (.toByteArray ^GeneratedMessageV3 (u/proto-map->proto proto-map)))
+  (.toByteArray ^Message (u/proto-map->proto proto-map)))
 
 (defn remap
   "Remaps `proto-map` using `mapper`.
